@@ -1,8 +1,8 @@
 import {useDispatch, useSelector} from 'react-redux';
 import {setImage} from '../redux/image/actions.js';
 import {makeStyles} from '@material-ui/styles';
-
 import {useRouter} from 'next/router';
+import {withTranslation} from '../i18n.js';
 import {Button, Spin, Typography} from 'antd';
 
 
@@ -26,7 +26,7 @@ const useStyles = makeStyles({
     }
 });
 
-export default function Image() {
+function Image({t}) {
     const router = useRouter();
     const dispatch = useDispatch();
 
@@ -55,9 +55,15 @@ export default function Image() {
 
     return (
         <div className={classes.container}>
-            <Button onClick={router.back}>Go back</Button>
-            <Typography.Title>Image</Typography.Title>
+            <Button onClick={router.back}>{t('go-back')}</Button>
+            <Typography.Title>{t('image')}</Typography.Title>
             {content}
         </div>
     )
 }
+
+Image.getInitialProps = async () => ({
+    namespacesRequired: ['common']
+});
+
+export default withTranslation('common')(Image);

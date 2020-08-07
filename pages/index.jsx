@@ -1,9 +1,11 @@
 import {useDispatch} from 'react-redux';
 import {wrapper} from '../redux/store.js';
 import {serverRenderClock, startClock} from '../redux/tick/actions.js';
+import {withTranslation} from '../i18n.js';
 import Page from '../components/Page.jsx';
 
-export default function Index(props) {
+
+function Index({t}) {
   const dispatch = useDispatch();
 
   React.useEffect(() => {
@@ -14,9 +16,15 @@ export default function Index(props) {
     }
   }, []);
 
-  return <Page title="Home" linkTo="/other"/>;
+  return <Page title={t('title')} linkTo="/other"/>;
 }
+
+export default withTranslation('index')(Index);
 
 export const getStaticProps = wrapper.getStaticProps(async ({store}) => {
   store.dispatch(serverRenderClock(true));
+
+  return {
+    props: {namespacesRequired: ['common', 'index']}
+  };
 });
