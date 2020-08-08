@@ -2,8 +2,7 @@ import {createStore, applyMiddleware, combineReducers} from 'redux';
 import {HYDRATE, createWrapper} from 'next-redux-wrapper';
 import thunkMiddleware from 'redux-thunk';
 
-import tickReducer from './tick/reducer.js';
-import imageReducer from './image/reducer.js';
+import moviesReducer from './movies/reducer.js';
 
 
 const bindMiddleware = (middleware) => {
@@ -15,12 +14,12 @@ const bindMiddleware = (middleware) => {
 }
 
 const combinedReducer = combineReducers({
-  tick: tickReducer,
-  image: imageReducer
+  movies: moviesReducer
 });
 
 const reducer = (state, action) => {
   if (action.type === HYDRATE) {
+    // merge server-side and client-side stores
     return {
       ...state,
       ...action.payload
